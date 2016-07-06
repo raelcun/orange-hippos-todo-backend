@@ -17,6 +17,17 @@ router.get('/tasks', function(req, res) {
 
 });
 
+router.put('/tasks/:id', function(req, res) {
+
+    Task.findByIdAndUpdate(req.params.id, {req.body.field: req.body.data}, {}, function(err) {
+        if (err) {
+            return res.json({ success: false, error: err });
+        }
+
+        return res.json({ success: true, results: true });
+    })
+});
+
 
 module.exports = router;
 
