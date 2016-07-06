@@ -8,14 +8,14 @@ const express = require('express'),
 const app = express();
 
 // setup ejs templating
-app.use(express.static(path.join(__dirname, 'public')))
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 // configure middleware
-app.use(bodyParser.json()) // parses json bodies
+app.use(bodyParser.json()); // parses json bodies
 
-loadRoutes(app)
+loadRoutes(app);
 
 // when app closes, let mongoose gracefully disconnect
 var gracefulDBExit = function() {
