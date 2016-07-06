@@ -19,7 +19,10 @@ router.get('/tasks', function(req, res) {
 
 router.put('/tasks/:id', function(req, res) {
 
-    Task.findByIdAndUpdate(req.params.id, {req.body.field: req.body.data}, {}, function(err) {
+	const updateObj = {}
+	updateObj['completed'] = req.body['completed'];
+
+    Task.findByIdAndUpdate(req.params.id, updateObj, {}, function(err) {
         if (err) {
             return res.json({ success: false, error: err });
         }
