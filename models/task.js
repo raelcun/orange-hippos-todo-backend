@@ -5,6 +5,10 @@ var TaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    priority: {
+        // 1 - low priority | 2 - medium priority | 3 - Super Intense Priority
+        type: Integer
+    },
     completed: {
         type: Boolean,
         required: true
