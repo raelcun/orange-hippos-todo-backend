@@ -34,8 +34,8 @@ router.post('/tasks', function(req, res) {
 	task.title = req.body.title;
 	task.priority = req.body.priority;
 	task.completed = req.body.completed;
-	if (task.completed_at) task.completed_at = req.body.completed_at;
-	if (task.due_at) task.due_at = req.body.due_at;
+	if (req.body.completed_at) task.completed_at = req.body.completed_at;
+	if (req.body.due_at) task.due_at = req.body.due_at;
 	
 	task.save(function(err) {
 		if (err) return res.json({ success: false, error: { id: 1, message: "Error" } });
