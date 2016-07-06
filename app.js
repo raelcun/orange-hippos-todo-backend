@@ -37,3 +37,5 @@ mongoose.connection.on('connected', function() {
 
 // connect mongoose to mongo db
 mongoose.connect(config.mongo.connectionURI);
+
+module.exports = app
