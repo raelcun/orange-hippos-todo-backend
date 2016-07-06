@@ -18,4 +18,4 @@ var TaskSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Person', TaskSchema);
+module.exports = mongoose.model('Task', TaskSchema);
