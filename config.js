@@ -1,10 +1,17 @@
-module.exports = {
+const config = {
+	env: process.env.NODE_ENV || 'development',
+	
 	server: {
 		port: 3000
 	},
 	
 	mongo: {
-		//connectionURI: 'mongodb://node:node@ds023624.mlab.com:23624/todo-api'
-		connectionURI: 'mongodb://localhost:27017/scotchbox'
+		connectionURI: 'mongodb://localhost:27017/todo-api'
 	}
 }
+
+if (config.env === 'testing') {
+	config.mongo.connectionURI = 'mongodb://localhost:27017/todo-api-test'
+}
+
+module.exports = config
