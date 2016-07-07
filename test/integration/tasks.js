@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'testing'
 
 const supertest = require('supertest'),
 			app = require('../../app.js'),
-			Task = require('../../models/task')
+			Task = require('../../models/task'),
 			assert = require('assert')
 
 describe('integration tests', function() {
@@ -38,3 +38,46 @@ describe('integration tests', function() {
 			})
 	})
 })
+
+describe('one test', function() {
+    before(function(done) {
+        Task.remove({}, function(err) {
+            if (err) return done(err);
+            done();
+        });
+    });
+
+    var testObj = {
+        "title" : "Test for titlessssssssssss",
+        "priority" : "1",
+        "completed": "false"
+    };
+
+    it('should post data', function(done) {
+        supertest(app).post('/tasks')
+            .send(testObj)
+            .expect(200)
+            .expect(function(res) {
+
+                supertest(app)
+                    .delete('/tasks/' + res.body.results)
+                    .expect(200)
+                    .end(done);
+            }).end(done);
+            
+    });
+    /*
+	it('should get data', function(done) {
+		supertest(app).get('/tasks').expect(200).end(done);
+	});
+    
+    it('should delete record', function(done) {
+        supertest(app).delete('/tasks/:taskid')
+            .expect(200).end(done);
+    });*/
+});
+
+// exports.should_get_posted_data = function(done) {
+// 	supertest(app)
+// }
+
