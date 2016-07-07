@@ -102,21 +102,23 @@ describe('one test', function() {
                 supertest(app)
                     .delete('/tasks/' + res.body.results)
                     .expect(200)
+                    .expect(function(res) {
+                        supertest(app)
+                        .get('/tasks')
+                        .expect(200)
+                        .end(function(err,res) {
+                            if (err) return done(err);
+
+                            assert.equal(res.body.success, false);
+                            assert.equal(res.body.results, []);
+                            done();
+                        })
+                    })
                     .end(function(err, res) {
                         assert.equal(res.body.success, true);
                         done();
                     });
 
-                supertest(app)
-                    .get('/tasks')
-                    .expect(200)
-                    .end(function(err,res) {
-                        if (err) return done(err);
-
-                        assert.equal(res.body.success, false);
-                        assert.equal(res.body.results, []);
-                        done();
-                    })
             }).end(done);
             
     });
