@@ -20,6 +20,7 @@ describe('integration tests', function() {
 			.send(task)
 			.expect(200)
 			.end(function(err, res) {
+				if (err) return done(err)
 				assert.equal(res.body.success, true)
 				assert.equal(typeof res.body.results, 'string')
 				
@@ -28,12 +29,51 @@ describe('integration tests', function() {
 					.get('/tasks')
 					.expect(200)
 					.end(function(err, res) {
+						if (err) return done(err)
+							
 						assert.equal(res.body.results.length, 1)
 						assert.equal(task.title, res.body.results[0].title)
 						assert.equal(task.priority, res.body.results[0].priority)
 						assert.equal(task.completed, res.body.results[0].completed)
 						assert.equal(task.due_at, res.body.results[0].due_at)
 						done()
+					})
+			})
+	})
+	
+	it('should update existing task', function(done) {
+		const task = { title: 'TEST', priority: 1, completed: false, due_at: '1467855439' }
+		supertest(app)
+			.post('/tasks')
+			.send(task)
+			.expect(200)
+			.end(function(err, res) {
+				if (err) return done(err)
+				assert.equal(res.body.success, true)
+				assert.equal(typeof res.body.results, 'string')
+				
+				const newId = res.body.results
+				const update = { completed: true, title: 'new test' }
+				supertest(app)
+					.put('/tasks/' + newId)
+					.send(update)
+					.expect(200)
+					.end(function(err, res) {
+						if (err) return done(err)
+						
+						supertest(app)
+							.get('/tasks')
+							.expect(200)
+							.end(function(err, res) {
+								if (err) return done(err)
+									
+								assert.equal(res.body.results.length, 1)
+								assert.equal(update.title, res.body.results[0].title)
+								assert.equal(task.priority, res.body.results[0].priority)
+								assert.equal(update.completed, res.body.results[0].completed)
+								assert.equal(task.due_at, res.body.results[0].due_at)
+								done()
+							})
 					})
 			})
 	})
