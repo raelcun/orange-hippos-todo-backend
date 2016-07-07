@@ -93,7 +93,7 @@ describe('one test', function() {
         "completed": "false"
     };
 
-    it('should post data', function(done) {
+    it('should post data with testObj', function(done) {
         supertest(app).post('/tasks')
             .send(testObj)
             .expect(200)
@@ -102,7 +102,21 @@ describe('one test', function() {
                 supertest(app)
                     .delete('/tasks/' + res.body.results)
                     .expect(200)
-                    .end(done);
+                    .end(function(err, res) {
+                        assert.equal(res.body.success, true);
+                        done();
+                    });
+
+                supertest(app)
+                    .get('/tasks')
+                    .expect(200)
+                    .end(function(err,res) {
+                        if (err) return done(err);
+
+                        assert.equal(res.body.success, false);
+                        assert.equal(res.body.results, []);
+                        done();
+                    })
             }).end(done);
             
     });
