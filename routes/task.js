@@ -1,5 +1,7 @@
 const express = require('express'),
       Task = require('../models/task'),
+      validate = require('express-validation'),
+      validation = require('../validate/todo'),
       router = express.Router();
 
 router.get('/tasks', function(req, res) {
@@ -17,7 +19,7 @@ router.get('/tasks', function(req, res) {
 
 });
 
-router.put('/tasks/:id', function(req, res) {
+router.put('/tasks/:id', validate(validation.putTask), function(req, res) {
 
     Task.findByIdAndUpdate(req.params.id, req.body, {}, function(err) {
         if (err) {
@@ -28,7 +30,7 @@ router.put('/tasks/:id', function(req, res) {
     })
 });
 
-router.post('/tasks', function(req, res) {
+router.post('/tasks', validate(validation.postTask), function(req, res) {
 	
 	const task = new Task();
 	task.title = req.body.title;
