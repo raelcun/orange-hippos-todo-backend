@@ -122,18 +122,4 @@ describe('one test', function() {
             }).end(done);
             
     });
-    /*
-	it('should get data', function(done) {
-		supertest(app).get('/tasks').expect(200).end(done);
-	});
-    
-    it('should delete record', function(done) {
-        supertest(app).delete('/tasks/:taskid')
-            .expect(200).end(done);
-    });*/
 });
-
-// exports.should_get_posted_data = function(done) {
-// 	supertest(app)
-// }
-
